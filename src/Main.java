@@ -1,24 +1,28 @@
 import java.util.Random;
 
 public class Main {
+    //return the nth digit of a base-10 number
     public static int nthDigit(int n, int d) {
-        double N = (double) n;
-        double D = d;
-        return (int) ((N % (double) Math.pow(10, (D + 1))) / (double) Math.pow(10, D));
+        int tail = (int) (n % Math.pow(10, (d + 1)));
+        int rightShift = (int) Math.pow(10, d);
+        return (int) tail / rightShift;
     }
 
+    //return the number of digits of a base-10 number
     public static int numDigits(int n) {
         return (int) Math.ceil(Math.log(n) / Math.log(10));
     }
 
+    //return a base-10 number with either the even or odd digits all set to 0
     public static int mask(int n, int offset) {
         int digits = 0;
         int nDigits = numDigits(n);
         for (int d = 0; d < nDigits; d++) {
             //need f(n) = n if n is even, 1 if n is odd
             int digit = nthDigit(n, d);
-
-            digits += Math.pow(10, d) * (digit) * ((d + offset) % 2);
+            int place = (int) Math.pow(10, d);
+            int masked = (d + offset) % 2;
+            digits +=  place * digit * masked;
 
         }
         return digits;
@@ -27,14 +31,14 @@ public class Main {
     public static int swapDigitPairs(int n) {
         double N = n;
         int nDigits = numDigits(n);
-        int first = 0;
+        int firstDigit = 0;
         if ((nDigits + 1) % 2 == 0) {
-            first = (int) (Math.pow(10.0, nDigits - 1) * nthDigit(n, nDigits - 1));
+            firstDigit = (int) (Math.pow(10.0, nDigits - 1) * nthDigit(n, nDigits - 1));
             n = (int) (n % Math.pow(10.0, nDigits - 1));
         }
         int oddDigits = mask(n, 0);
         int evenDigits = mask(n, 1);
-        return first + (evenDigits * 100 + oddDigits) / 10;
+        return firstDigit + (evenDigits * 100 + oddDigits) / 10;
     }
 
     public static String leftpad(int n, int l) {
@@ -53,11 +57,7 @@ public class Main {
             int n = rand.nextInt(1000000);
             System.out.println(n);
             System.out.println("S: " + swapDigitPairs(n));
-//            System.out.println("e: " +leftpad(mask(n,0),0));
-//            System.out.println("o: " + leftpad(mask(n,1),0));
-//            System.out.println("sh: " + (mask(n,0) + mask(n,1)*100)/10);
             System.out.println("-------");
         }
-//        System.out.println((numDigits(123456)));
     }
 }
