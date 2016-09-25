@@ -38,7 +38,6 @@ public class Main {
 
     //the star of the show
     public static int swapDigitPairs(int n) {
-        double N = n;
         int nDigits = numDigits(n);
         int firstDigit = 0;
         //handle odd-length numbers
