@@ -22,7 +22,7 @@ public class Main {
         int digits = 0;
         //decide how far to iterate
         int nDigits = numDigits(n);
-        System.out.println("n, digits: "+ n +", " + nDigits);
+//        System.out.println("n, digits: " + n + ", " + nDigits);
         for (int d = 0; d < nDigits + 1; d++) {
             int digit = nthDigit(n, d);
             //where is this digit
@@ -31,7 +31,7 @@ public class Main {
             int masked = (d + offset) % 2;
             //add the digit to the final output
 //            System.out.println("p, d, m: " + place + ", " + digit + ", " + masked);
-            digits +=  place * digit * masked;
+            digits += place * digit * masked;
         }
         return digits;
     }
@@ -56,7 +56,7 @@ public class Main {
         //we can simply shift the evens to the left and add to odds
         //this result must then be shifted back to get rid of trailing zeroes.
 
-        int tail = (evenDigits * 100 + oddDigits)/10;
+        int tail = (evenDigits * 100 + oddDigits) / 10;
         //put the first digit back on
         return firstDigit + tail;
     }
@@ -65,25 +65,25 @@ public class Main {
     public static int sdp(int n) {
         int out = 0;
         int count = 0;
-        while (n > 9){
+        while (n > 9) {
             //get just two least-significant digits
-            int meh = n%100;
+            int meh = n % 100;
             //reduce n
             n /= 100;
             //swap
-            meh = (meh%10)*10 + meh /10;
+            meh = (meh % 10) * 10 + meh / 10;
             //multiply to correctly place pair of digits
-            for (int i = 0; i < count; i ++){
+            for (int i = 0; i < count; i++) {
                 meh *= 100;
             }
             out += meh;
             //keep track of where we are in the output
-            count ++;
+            count++;
         }
         //check for leftovers due to odd num of digits
-        if (n > 0){
+        if (n > 0) {
             //shift that extra digit left and put it back on
-            for ( int i = 0; i < count; i ++){
+            for (int i = 0; i < count; i++) {
                 n *= 100;
             }
             out += n;
@@ -95,21 +95,26 @@ public class Main {
         int max = 10000;
         Random rand = new Random();
 
-        int numTests = 1000;
+        int numTests = 10000;
+
+        boolean success = true;
         for (int i = 0; i < numTests; i++) {
             int n = rand.nextInt(max);
-            n = 1000;
+//            n = 1000;
             System.out.println(n);
             int n1 = swapDigitPairs(n);
             int n2 = sdp(n);
             System.out.println(n1);
             System.out.println(n2);
             if (n1 != n2) {
-                System.out.println("FAIL " + n1 + " " + n2);
+                success = false;
+
                 break;
             }
             System.out.println(new String(new char[numDigits(max)]).replace("\0", "-"));
         }
-//        System.out.println("Succeeded in " + numTests + " tests!");
+        if (success) {
+            System.out.println("Succeeded in " + numTests + " tests!");
+        }
     }
 }
