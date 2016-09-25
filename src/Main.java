@@ -34,7 +34,7 @@ public class Main {
         return digits;
     }
 
-    //the star of of the show
+    //the star of the show
     public static int swapDigitPairs(int n) {
         double N = n;
         int nDigits = numDigits(n);
@@ -67,7 +67,7 @@ public class Main {
             n /= 100;
             //swap
             meh = (meh%10)*10 + meh /10;
-            //multiply to place swapped digits correctly
+            //multiply to correctly place pair of digits
             for (int i = 0; i < count; i ++){
                 meh *= 100;
             }
@@ -77,6 +77,7 @@ public class Main {
         }
         //check for leftovers due to odd num of digits
         if (n > 0){
+            //shift that extra digit left and put it back on
             for ( int i = 0; i < count; i ++){
                 n *= 100;
             }
