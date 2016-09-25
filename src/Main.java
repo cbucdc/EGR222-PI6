@@ -13,9 +13,6 @@ public class Main {
 
     //return the number of digits of a base-10 number
     public static int numDigits(int n) {
-        if (n > 0 && n < 99){
-            return 2;
-        }
         //math formula for getting the digit length of a number in base-10
         return (int) Math.floor(1 + Math.log(n) / Math.log(10));
     }
