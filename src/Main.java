@@ -17,7 +17,7 @@ public class Main {
             return 2;
         }
         //math formula for getting the digit length of a number in base-10
-        return (int) Math.ceil(Math.log(n) / Math.log(10));
+        return (int) Math.floor(1 + Math.log(n) / Math.log(10));
     }
 
     //return a base-10 number with either the even or odd digits all set to 0
