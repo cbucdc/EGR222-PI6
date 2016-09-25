@@ -8,11 +8,14 @@ public class Main {
         //decide how far to right-shift it to chop off the tail
         int rightShift = (int) Math.pow(10, d);
         //chop chop
-        return (int) tail / rightShift;
+        return tail / rightShift;
     }
 
     //return the number of digits of a base-10 number
     public static int numDigits(int n) {
+        if (n > 0 && n < 99){
+            return 2;
+        }
         //math formula for getting the digit length of a number in base-10
         return (int) Math.ceil(Math.log(n) / Math.log(10));
     }
@@ -30,7 +33,6 @@ public class Main {
             int masked = (d + offset) % 2;
             //add the digit to the final output
             digits +=  place * digit * masked;
-
         }
         return digits;
     }
@@ -42,9 +44,9 @@ public class Main {
         int firstDigit = 0;
         //handle odd-length numbers
         if ((nDigits + 1) % 2 == 0) {
-            //get the first digit but keep the correct shift
+            //mask out everything bust the first digit
             firstDigit = (int) (Math.pow(10.0, nDigits - 1) * nthDigit(n, nDigits - 1));
-            //chop off the first
+            //chop off the first, hhe simple minus operator can be used because of masking
             n = n - firstDigit;
         }
         int oddDigits = mask(n, 0);
@@ -53,17 +55,18 @@ public class Main {
         //we can simply shift the evens to the left and add to odds
         //this result must then be shifted back to get rid of trailing zeroes.
 
-        int tail = (evenDigits * 100 + oddDigits) / 10;
+        int tail = (evenDigits * 100 + oddDigits)/10;
         //put the first digit back on
         return firstDigit + tail;
     }
 
     public static void main(String[] args) {
-        int max = 100000000;
+        int max = 10;
         Random rand = new Random();
 
         for (int i = 0; i < 10; i++) {
             int n = rand.nextInt(max);
+            n = 110;
             System.out.println(n);
             System.out.println(swapDigitPairs(n));
             System.out.println(new String(new char[numDigits(max)]).replace("\0","-"));
