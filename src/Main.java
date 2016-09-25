@@ -22,13 +22,15 @@ public class Main {
         int digits = 0;
         //decide how far to iterate
         int nDigits = numDigits(n);
-        for (int d = 0; d < nDigits; d++) {
+        System.out.println("n, digits: "+ n +", " + nDigits);
+        for (int d = 0; d < nDigits + 1; d++) {
             int digit = nthDigit(n, d);
             //where is this digit
             int place = (int) Math.pow(10, d);
             //should this digit be masked out?
             int masked = (d + offset) % 2;
             //add the digit to the final output
+//            System.out.println("p, d, m: " + place + ", " + digit + ", " + masked);
             digits +=  place * digit * masked;
         }
         return digits;
@@ -48,6 +50,8 @@ public class Main {
         }
         int oddDigits = mask(n, 0);
         int evenDigits = mask(n, 1);
+//        System.out.println("e, o: " + evenDigits + ", " + oddDigits);
+
         //this is the magic we can finally do after the masking.
         //we can simply shift the evens to the left and add to odds
         //this result must then be shifted back to get rid of trailing zeroes.
@@ -57,6 +61,7 @@ public class Main {
         return firstDigit + tail;
     }
 
+    //optimized version of swapDigitPairs
     public static int sdp(int n) {
         int out = 0;
         int count = 0;
@@ -87,12 +92,13 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        int max = 1000;
+        int max = 10000;
         Random rand = new Random();
 
-        int numTests = 100000;
+        int numTests = 1000;
         for (int i = 0; i < numTests; i++) {
             int n = rand.nextInt(max);
+            n = 1000;
             System.out.println(n);
             int n1 = swapDigitPairs(n);
             int n2 = sdp(n);
@@ -104,6 +110,6 @@ public class Main {
             }
             System.out.println(new String(new char[numDigits(max)]).replace("\0", "-"));
         }
-        System.out.println("Succeeded in " + numTests + " tests!");
+//        System.out.println("Succeeded in " + numTests + " tests!");
     }
 }
