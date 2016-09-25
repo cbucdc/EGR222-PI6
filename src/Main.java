@@ -57,16 +57,52 @@ public class Main {
         return firstDigit + tail;
     }
 
+    public static int sdp(int n) {
+        int out = 0;
+        int count = 0;
+        while (n > 9){
+            //get just two least-significant digits
+            int meh = n%100;
+            //reduce n
+            n /= 100;
+            //swap
+            meh = (meh%10)*10 + meh /10;
+            //multiply to place swapped digits correctly
+            for (int i = 0; i < count; i ++){
+                meh *= 100;
+            }
+            out += meh;
+            //keep track of where we are in the output
+            count ++;
+        }
+        //check for leftovers due to odd num of digits
+        if (n > 0){
+            for ( int i = 0; i < count; i ++){
+                n *= 100;
+            }
+            out += n;
+        }
+        return out;
+    }
+
     public static void main(String[] args) {
-        int max = 10;
+        int max = 1000;
         Random rand = new Random();
 
-        for (int i = 0; i < 10; i++) {
+        int numTests = 100000;
+        for (int i = 0; i < numTests; i++) {
             int n = rand.nextInt(max);
-            n = 110;
             System.out.println(n);
-            System.out.println(swapDigitPairs(n));
-            System.out.println(new String(new char[numDigits(max)]).replace("\0","-"));
+            int n1 = swapDigitPairs(n);
+            int n2 = sdp(n);
+            System.out.println(n1);
+            System.out.println(n2);
+            if (n1 != n2) {
+                System.out.println("FAIL " + n1 + " " + n2);
+                break;
+            }
+            System.out.println(new String(new char[numDigits(max)]).replace("\0", "-"));
         }
+        System.out.println("Succeeded in " + numTests + " tests!");
     }
 }
