@@ -62,43 +62,36 @@ public class Main {
 
     //optimized version of swapDigitPairs
     public static int sdp(int n) {
-        int out = 0;
-        int count = 0;
+        int temp = 0;
+        int multiplier = 1;
         while (n > 9) {
             //get just two least-significant digits
-            int meh = n % 100;
-            //reduce n
-            n /= 100;
-            //swap
-            meh = (meh % 10) * 10 + meh / 10;
-            //multiply to correctly place pair of digits
-            for (int i = 0; i < count; i++) {
-                meh *= 100;
-            }
-            out += meh;
+            int twoDigits = n % 100;
+            //swap and multiply to preserve shift
+            twoDigits = ((twoDigits % 10) * 10 + twoDigits / 10) * multiplier;
+            temp += twoDigits;
             //keep track of where we are in the output
-            count++;
+            multiplier *= 100;
+            //reduce n to remove already processed digits
+            n /= 100;
         }
         //check for leftovers due to odd num of digits
         if (n > 0) {
             //shift that extra digit left and put it back on
-            for (int i = 0; i < count; i++) {
-                n *= 100;
-            }
-            out += n;
+            temp += n * multiplier;
         }
-        return out;
+        return temp;
     }
 
     public static void main(String[] args) {
         int max = 10000;
         Random rand = new Random();
 
-        int numTests = 10000;
+        int numTests = 100000;
 
         boolean success = true;
-        for (int i = 0; i < numTests; i++) {
-            int n = rand.nextInt(max);
+        for (int i = 1; i < numTests; i++) {
+            int n = rand.nextInt(i);
 //            n = 1000;
             System.out.println(n);
             int n1 = swapDigitPairs(n);
